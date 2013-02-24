@@ -1,7 +1,65 @@
+<?php
 
-Recibe los par√metros enviados desde nuevo.php
+include("db_header.php");
 
-Lo mete en BBDD. ojo al sql injection 
 
-Lee el id asignado al pisado.
-Lo muestra por pantalla con un mensaje sobre su importancia.
+
+//Recibe los par√metros enviados desde nuevo.php
+
+
+
+
+$titulacion = $_POST['titulacion'];
+$contenido = $_POST['contenido'];
+$asignatura = $_POST['asignatura'];
+
+
+//Lo mete en BBDD. ojo al sql injection 
+$contenido = $mysqli->real_escape_string($contenido);
+$asignatura = $mysqli->real_escape_string($asignatura);
+$titulacion = $mysqli->real_escape_string($titulacion);
+
+
+$nombre_titulacion= $mysqli.query("Select nombre from titulaciones where id=$titulacion" );//pedir si existe la titulacion
+if($nombre_titulacion!=null){
+//error, la titulacion no existe
+
+}
+
+ 
+
+
+if ($mysqli->query("INSERT into miCiudad (Name) VALUES ('$ciudad')")) {
+    printf("%d fila insertada.\n", $mysqli->affected_rows);
+}
+
+
+if (!$mysqli->query("INSERT into pisados values (NOW(),$titulacion,$asignatura,$contenido)"){
+//error al insertar fila
+
+}
+
+
+
+//Lee el id asignado al pisado.
+
+$pisado_id = mysqli_insert_id($mysqli);
+if(pisado_id == 0){
+
+//error
+
+}
+
+
+echo "<div id=codigo_respuesta>";
+echo "<p>El c√≥digo de registro asociado a este PISADO es: </p>"
+echo "<h1>$pisado_id<h1>"
+echo "<p id=aviso_pisado>Es muy importante guardar este c√≥digo, ya es ques la unica forma de poder realizar un seguimiento sobre el estado del pisado</p>";
+echo "</div>";
+
+
+//Lo muestra por pantalla con un mensaje sobre su importancia.
+
+include("db_footer.php");
+
+?>
