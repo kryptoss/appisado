@@ -2,13 +2,23 @@
 
 include("db_header.php");
 
-
+include("header.php");
 
 //Recibe los parÃmetros enviados desde nuevo.php
 
+  require_once('recaptchalib.php');
+  $privatekey = "your_private_key";
+  $resp = recaptcha_check_answer ($privatekey,
+                                $_SERVER["REMOTE_ADDR"],
+                                $_POST["recaptcha_challenge_field"],
+                                $_POST["recaptcha_response_field"]);
 
-
-
+  if (!$resp->is_valid) {
+    // What happens when the CAPTCHA was entered incorrectly
+    die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+         "(reCAPTCHA said: " . $resp->error . ")");
+  } else {
+    // Your code here to handle a successful verification
 $titulacion = $_POST['titulacion'];
 $contenido = $_POST['contenido'];
 $asignatura = $_POST['asignatura'];
@@ -28,10 +38,11 @@ if($nombre_titulacion!=null){
 
  
 
+  }
 
-if ($mysqli->query("INSERT into miCiudad (Name) VALUES ('$ciudad')")) {
-    printf("%d fila insertada.\n", $mysqli->affected_rows);
-}
+
+
+
 
 
 if (!$mysqli->query("INSERT into pisados values (NOW(),$titulacion,$asignatura,$contenido)"){
@@ -61,5 +72,6 @@ echo "</div>";
 //Lo muestra por pantalla con un mensaje sobre su importancia.
 
 include("db_footer.php");
+include("footer.php");
 
 ?>

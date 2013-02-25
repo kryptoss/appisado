@@ -5,29 +5,45 @@ usa el id de usuario a rtir de la cookie de sesion
 
 lee cookie
 
-if($_COOKIE['session']!=null){
+//if($_COOKIE['session']!=null){
+//
+//$useremail=$mysqli->query("SELECT email_user from sesiones where cookie=$cookie")
+//
+//}else{
+////error y salimos del todo
+//
+//}
+//
+//
 
-$useremail=$mysqli->query("SELECT email_user from sesiones where cookie=$cookie")
+if($_SESSION['id']!= null )
+{
+ $user = mysqli->query("Select nia in sesiones where id=$_SESSION['id']");
+ if($user){
 
-}else{
-//error y salimos del todo
+//Lee la titulación del usuario.
+   $titulacion = msqli->query("Select titulacion in delegados where nia=$user");
+//Lee todos los pisados de esa titulación y muestra los primeros caracteres de cada uno.
+  $pisados = mysqli->query("Select * in pisados where titulacion = $titulacion");
+
+echo "<table>"  
+echo "<tr>id</tr><tr>asignatura</tr><tr>Texto</tr>"
+
+foreach($pisados as $pisado){
+echo "<span id=\"pisado-$pisado[0]\"><tr><a href="detallepisado.php?p=$pisado">$pisado[0]</a></tr><tr>$pisado[3]</tr><tr>substr($pisado[4],0,20)</tr></span>"
+ }
+
+echo "</table>"  
 
 }
 
 
-Lee la titulación del usuario.
-$titulacion=$mysqli->query("SELECT titulacion from delegados where emailaddress=$useremail");
-
-Lee todos los pisados de esa titulación y muestra los primeros caracteres de cada uno.
-
-$pisados= mysqli->query("SELECT  * FROM pisados where titulacion=$titulacion");
 
 
-echo "<tr>id</tr><tr>asignatura</tr><tr>Texto</tr>"
+
 
 for(i=0; i< count($pisados);i++){
 
-echo "<tr>$pisados[i][0]</tr><tr>$pisados[i][3]</tr><tr>substr($pisados[i][4],0,20)</tr>"
 
 
 }
